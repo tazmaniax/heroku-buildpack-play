@@ -24,7 +24,7 @@ check_compile_status()
 install_play()
 {
   VER_TO_INSTALL=$1
-  PLAY_URL="https://static.ptasocial.com/buildpack/play-heroku-$VER_TO_INSTALL.tar.gz"
+  PLAY_URL="http://static.ptasocial.com/buildpack/play-heroku-$VER_TO_INSTALL.tar.gz"
   PLAY_TAR_FILE="play-heroku.tar.gz"
   echo "-----> Installing Play! $VER_TO_INSTALL....."
   curl --silent --max-time 150 --location $PLAY_URL -o $PLAY_TAR_FILE
