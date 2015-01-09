@@ -3,7 +3,7 @@ Heroku buildpack: Play!
 
 This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpack) for [Play! framework](http://www.playframework.org/) apps.
 
-*Note: This buildpack only applies to Play 1.2.x apps. Play 2.0.x apps are handled by the [Scala buildpack](https://github.com/heroku/heroku-buildpack-scala)*
+*Note: This buildpack only applies to Play 1.2.x apps. Play 2.x apps are handled by the [Scala buildpack](https://github.com/heroku/heroku-buildpack-scala)*
 
 Usage
 -----
@@ -23,11 +23,11 @@ Example usage:
     -----> Installing Play!..... done
     -----> Installing ivysettings.xml..... done
     -----> Building Play! application...
-           ~        _            _ 
+           ~        _            _
            ~  _ __ | | __ _ _  _| |
            ~ | '_ \| |/ _' | || |_|
            ~ |  __/|_|\____|\__ (_)
-           ~ |_|            |__/   
+           ~ |_|            |__/
            ~
            ~ play! 1.2.3, http://www.playframework.org
            ~
@@ -47,6 +47,13 @@ The buildpack will read the Play! version that your application expects from you
 If you don't specify a version it will be defaulted for you and you'll see a warning message in your build output. It is a best practice to specify the version off the framework that you intend to use.
 
 Once your application is live you can upgrade the Play! version simply by changing the version in your dependencies.yml. If you don't specify a version and use the default version your application will not be updated when the default version is updated. This is so that you don't have to deal with your application being upgraded unexpectedly.
+
+Customizing Ivy
+-----------
+
+You can customize the Ivy execution by creating a `.ivy2-overlay` directory in your project and adding it to Git.
+The contents of this directory will be copied over the default `.ivy2` directory.
+In this way, you can add files such as `.ivy2-overlay/ivysettings.xml` to customize the Ivy execution.
 
 Hacking
 -------

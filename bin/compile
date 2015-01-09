@@ -11,7 +11,7 @@ BIN_DIR=$(cd $(dirname $0); pwd) # absolute path
 # source in common functions
 . $BIN_DIR/common.sh
 
-JVM_COMMON_BUILDPACK=http://lang-jvm.s3.amazonaws.com/jvm-buildpack-common-v1.0.tar.gz
+JVM_COMMON_BUILDPACK=http://lang-jvm.s3.amazonaws.com/jvm-buildpack-common-v10.tar.gz
 mkdir -p /tmp/jvm-common
 curl --silent --location $JVM_COMMON_BUILDPACK | tar xzm -C /tmp/jvm-common
 . /tmp/jvm-common/bin/util
@@ -32,7 +32,7 @@ javaVersion=$(detect_java_version ${BUILD_DIR})
 echo -n "-----> Installing OpenJDK ${javaVersion}..."
 install_java ${BUILD_DIR} ${javaVersion}
 jdk_overlay ${BUILD_DIR}
-echo "done"
+echo " done"
 
 PLAY_PATH=".play"
 IVY_PATH=".ivy2"
@@ -47,6 +47,14 @@ for DIR in $PLAY_PATH $IVY_PATH ; do
     cp -r $CACHE_DIR/$DIR $DIR
   fi
 done
+
+# Install the custom Ivy settings
+if [ -d ${IVY_PATH}-overlay ]; then
+  echo -n "-----> Installing custom Ivy files..."
+  mkdir -p ${IVY_PATH}
+  mv ${IVY_PATH}-overlay/* ${IVY_PATH}
+  echo " done"
+fi
 
 PLAY_VERSION=$(get_play_version conf/dependencies.yml)
 DEFAULT_PLAY_VERSION="1.3.0"
@@ -69,15 +77,6 @@ else
     install_play $PLAY_VERSION
   fi
 fi
-
-PLAY_SETTINGS_URL="http://s3.amazonaws.com/heroku-jvm-langpack-play/ivysettings.xml"
-
-echo -n "-----> Installing ivysettings.xml....."
-if [ -f .ivy2/ivysettings.xml ]; then
-  rm .ivy2/ivysettings.xml
-fi
-curl --silent --max-time 10 --location $PLAY_SETTINGS_URL --create-dirs --output .ivy2/ivysettings.xml
-echo " done"
 
 # Build app
 echo "-----> Building Play! application..."
