@@ -104,7 +104,7 @@ https://devcenter.heroku.com/articles/scala-support"
 install_play()
 {
   VER_TO_INSTALL=$1
-  PLAY_URL="http://static.ptasocial.com/buildpack/play-heroku-$VER_TO_INSTALL.tar.gz"
+  PLAY_URL="https://static.plansocial.app/buildpack/play-heroku-$VER_TO_INSTALL.tar.gz"
   PLAY_TAR_FILE="play-heroku.tar.gz"
 
   validate_play_version ${VER_TO_INSTALL}
